@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 // only for dev enable cors
 app.use(cors());
 
-app.use("/api", Api);
+app.use("/abc/api", Api);
 
 const port = args[2];
 
