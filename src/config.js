@@ -1,24 +1,34 @@
-// const dbhost = "59ad34e4531af.sh.cdb.myqcloud.com";
-// const dbport = 5810;
+const dbhost = "59ad34e4531af.sh.cdb.myqcloud.com";
+const dbport = 5810;
 // prod db setting
-const dbhost = "172.17.16.9";
-const dbport = 3388;
+// const dbhost = "172.17.16.9";
+// const dbport = 3388;
 const dbusr = "nxg";
 const dbpassword = "nxgsql888";
 const dbdatabase = "LOHOABC_ALPHA";
 const dbBackupPath = "/backup/db/";
 
-// const dbWordNetTableName = "WORD_NET";
+const dbUserWordsTableName = "user_words";
 const dbWordsTableName = "WORDS";
 const dbWordsV1TableName = "Words_v1";
 const bingApiKey = "189bda1045ad40bfbae3e3a449d801f5";
 const thumbImgsPath = "/static/wordimgs/thumb/";
 const wordImgsPath = "/static/wordimgs/";
 
+const dbUserWordsTableNameUid = "uid";
+const dbUserWordsTableNameRecords = "records";
+const dbUserWordsTableNameWord = "word";
+const dbUserWordsTableNameTs = "ts";
+
+const dbUserMemTableName = "user_mem";
+const dbUserMemTableNameUid = "uid";
+
+const UserMemExpireCacheExpire = 1200; // 1000 seconds
 const projectRootPath = __dirname
 	.split("/")
 	.slice(0, -1)
 	.join("/");
+
 // ============need create log folder first ==============
 // console.log("logger dirname is : ", __dirname);
 // const logFilePath =
@@ -37,6 +47,22 @@ const projectRootPath = __dirname
 // exports.errorLogFileName = errorLogFileName;
 // exports.exceptionsLogFileName = exceptionsLogFileName;
 
+const ErrDB = "ErrDB";
+const ErrRequest = "ErrRequest";
+
+const GetLastUserWord = "rluw";
+const GetAllUserWords = "gauw";
+const InsertUserWord = "iuw";
+const NewUserMeM = "num";
+const ErrCodeRequest = 4040;
+const ErrCodeDB = 4050;
+const ErrCodeUserMemNotExist = 4060;
+const ErrCodeNewUserMemExisted = 4070;
+exports.ErrCodeDB = ErrCodeDB;
+exports.ErrCodeRequest = ErrCodeRequest;
+exports.ErrCodeDB = ErrCodeDB;
+exports.ErrCodeUserMemNotExist = ErrCodeUserMemNotExist;
+exports.ErrCodeNewUserMemExisted = ErrCodeNewUserMemExisted;
 exports.dbhost = dbhost;
 exports.dbport = dbport;
 exports.dbusr = dbusr;
@@ -50,4 +76,17 @@ exports.bingApiKey = bingApiKey;
 exports.thumbImgsPath = thumbImgsPath;
 exports.wordImgsPath = wordImgsPath;
 
-exports.Word2VecQueryNumber = 50;
+exports.dbUserWordsTableName = dbUserWordsTableName;
+exports.dbUserWordsTableNameUid = dbUserWordsTableNameUid;
+exports.dbUserWordsTableNameRecords = dbUserWordsTableNameRecords;
+exports.dbUserWordsTableNameWord = dbUserWordsTableNameWord;
+exports.dbUserWordsTableNameTs = dbUserWordsTableNameTs;
+exports.dbUserMemTableName = dbUserMemTableName;
+exports.dbUserMemTableNameUid = dbUserWordsTableNameUid;
+
+exports.InsertUserWord = InsertUserWord;
+exports.GetAllUserWords = GetAllUserWords;
+exports.NewUserMeM = NewUserMeM;
+
+exports.GetLastUserWord = GetLastUserWord;
+exports.UserMemExpireCacheExpire = UserMemExpireCacheExpire;

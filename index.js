@@ -1,36 +1,34 @@
+// const compression = require("compression");
+const args = process.argv;
+console.log(args);
 const express = require("express");
 const app = express();
-const DB = require("./src/db.js");
 const Config = require("./src/config.js");
-var cors = require("cors");
+const Api = require("./src/api.js");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+// use nginx instead compression
+// app.use(compression());
 
+// only for dev enable cors
 app.use(cors());
 
-// const WordUtils = require("./src/wordutils.js");
-// WordUtils.getMapOfWordIndex();
+app.use("/api", Api);
 
-// test word2vec
-var Word2Vec = require("./src/word2vec/word2vec.js");
-// console.log(Word2Vec);
-// console.log(Word2Vec("donkey", 50));
+const port = args[2];
 
-// api/options/?word=apple
 
-app.get("/api/options", function(req, res) {
-	console.log(req.query.word);
-	let queryWord = req.query.word;
-	if (queryWord !== undefined) {
-		let result = Word2Vec(queryWord, Config.Word2VecQueryNumber);
-		res.send(JSON.stringify(result));
-	} else {
-		res.send("wrong parameter with");
-	}
-});
+// ===============  init db tables ====================
+// const DB = require("./src/db.js");
+// DB.insertUserWord("testuid", "world", [0, 6, 1, 3, 0]);
+// DB.createUserWordsTable();
+// DB.createUserMemTable();
+// DB.createUserMem('testuid1');
+// app.use(express.static("static"));
 
-app.use(express.static("static"));
-
-app.listen(8080, function() {
-	console.log("Example app listening on port 8080!");
+app.listen(port, function() {
+	console.log("Example app listening on port : ", port);
 });
 
 // const SearchImg = require("./src/searchimg.js");
