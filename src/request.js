@@ -3,6 +3,22 @@ const Config = require("./config.js");
 function checkRequestData(req, item) {
 	// check valid data inside request and pass whole req go to next
 	switch (item) {
+		// check save test history ======================  TODO
+		// check all data is healthy ================= TODO
+		// check if uid in db or cache ===============  TODO
+		case Config.SaveTestHis:
+			let word = req.body.word;
+			let his = req.body.his;
+			if (word.length === his.length) {
+				return function(callback) {
+					callback(null, req);
+				};
+			} else {
+				return function(callback) {
+					callback(new Error(), Config.ErrCodePostRequest);
+				};
+			}
+			break;
 		// check uid
 		case Config.GetLastUserWord:
 		// get all user words
@@ -14,7 +30,7 @@ function checkRequestData(req, item) {
 				};
 			} else {
 				return function(callback) {
-					callback(new Error(), Config.ErrCodeRequesst);
+					callback(new Error(), Config.ErrCodeRequest);
 				};
 			}
 			break;
@@ -27,7 +43,7 @@ function checkRequestData(req, item) {
 				};
 			} else {
 				return function(callback) {
-					callback(new Error(), Config.ErrCodeRequesst);
+					callback(new Error(), Config.ErrCodeRequest);
 				};
 			}
 			break;

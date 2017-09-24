@@ -3,12 +3,40 @@ const Config = require("./config.js");
 const DB = require("./db.js");
 const MyLog = require("./mylog.js");
 const async = require("async");
-
+const MyWechat = require("./mywechat.js");
 const api = require("express").Router();
 
+// --------------------------  test ===================
 api.get("/echo", function(req, res) {
 	// console.log(req);
 	res.json(req.headers);
+});
+
+// ===================  wechat related =======================
+api.get("/wechat/login", function(req, res) {
+	MyWechat.handleLogin(req, res);
+});
+
+api.get("/wechat/redirect", function(req, res) {
+	MyWechat.handleRedirect(req, res);
+});
+
+api.get("/wechat/getuidcookie", function(req, res) {
+	MyWechat.handleGetCookie(req, res);
+});
+// ======================== lohoabc ==============================
+
+api.post("/testhis", function(req, res) {
+	console.log(req.body.word);
+	console.log(req.body.his);
+	async.waterfall([
+			Request.checkRequestData(req,Config.SaveTestHis),
+			DB.saveTestHis
+		], function(err, results) {
+		if (!err) {
+			res.json(req.body);
+		}
+	});
 });
 
 api.get("/all_words", function(req, res) {
@@ -114,7 +142,6 @@ api.post("/new_mem", function(req, res) {
 		}
 	);
 });
-
 
 api.post("/insert_new_word", function(req, res) {
 	// MyLog.info(req.body);

@@ -14,6 +14,13 @@ const db = mysql.createConnection({
 	port: Config.dbport
 });
 
+function saveTestHis(req, callback) {
+	
+
+
+
+	
+}
 function checkUserMemForInsert(req, callback) {
 	let uid = req.body.uid;
 	// check in cache, if exist return 1 else 0
@@ -230,3 +237,4 @@ exports.getLastUserWord = getLastUserWord;
 exports.checkUserMemForInsert = checkUserMemForInsert;
 exports.getAllUserWords = getAllUserWords;
 exports.createUserMem = createUserMem;
+exports.saveTestHis = saveTestHis;

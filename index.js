@@ -3,6 +3,11 @@ const args = process.argv;
 console.log(args);
 const express = require("express");
 const app = express();
+
+const cookieParser = require("cookie-parser");
+// set for cookie name
+app.use(cookieParser("uid"));
+
 const Config = require("./src/config.js");
 const Api = require("./src/api.js");
 const cors = require("cors");
@@ -14,10 +19,9 @@ app.use(bodyParser.json());
 // only for dev enable cors
 app.use(cors());
 
-app.use("/abc/api", Api);
+app.use("/api/abc", Api);
 
 const port = args[2];
-
 
 // ===============  init db tables ====================
 // const DB = require("./src/db.js");

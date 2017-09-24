@@ -49,7 +49,7 @@ const projectRootPath = __dirname
 
 const ErrDB = "ErrDB";
 const ErrRequest = "ErrRequest";
-
+const SaveTestHis = "sth";
 const GetLastUserWord = "rluw";
 const GetAllUserWords = "gauw";
 const InsertUserWord = "iuw";
@@ -58,11 +58,14 @@ const ErrCodeRequest = 4040;
 const ErrCodeDB = 4050;
 const ErrCodeUserMemNotExist = 4060;
 const ErrCodeNewUserMemExisted = 4070;
+const ErrCodePostRequest = 4080;
+
 exports.ErrCodeDB = ErrCodeDB;
 exports.ErrCodeRequest = ErrCodeRequest;
 exports.ErrCodeDB = ErrCodeDB;
 exports.ErrCodeUserMemNotExist = ErrCodeUserMemNotExist;
 exports.ErrCodeNewUserMemExisted = ErrCodeNewUserMemExisted;
+exports.ErrCodePostRequest = ErrCodePostRequest;
 exports.dbhost = dbhost;
 exports.dbport = dbport;
 exports.dbusr = dbusr;
@@ -87,6 +90,6 @@ exports.dbUserMemTableNameUid = dbUserWordsTableNameUid;
 exports.InsertUserWord = InsertUserWord;
 exports.GetAllUserWords = GetAllUserWords;
 exports.NewUserMeM = NewUserMeM;
-
+exports.SaveTestHis = SaveTestHis;
 exports.GetLastUserWord = GetLastUserWord;
 exports.UserMemExpireCacheExpire = UserMemExpireCacheExpire;
