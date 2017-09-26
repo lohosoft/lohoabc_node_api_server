@@ -13,6 +13,7 @@ api.get("/echo", function(req, res) {
 });
 
 // ===================  wechat related =======================
+// not use async , just pass req and res let my wechat handle
 api.get("/wechat/login", function(req, res) {
 	MyWechat.handleLogin(req, res);
 });
@@ -21,37 +22,30 @@ api.get("/wechat/redirect", function(req, res) {
 	MyWechat.handleRedirect(req, res);
 });
 
-api.get("/wechat/getuidcookie", function(req, res) {
-	MyWechat.handleGetCookie(req, res);
-});
+// api.get("/wechat/getuidcookie", function(req, res) {
+// 	MyWechat.handleGetCookie(req, res);
+// });
 // ======================== lohoabc ==============================
-
-api.post("/testhis", function(req, res) {
-	console.log(req.body.word);
-	console.log(req.body.his);
-	async.waterfall([
-			Request.checkRequestData(req,Config.SaveTestHis),
-			DB.saveTestHis
-		], function(err, results) {
-		if (!err) {
-			res.json(req.body);
-		}
-	});
-});
-
+// use async pass req through , responds reply result , error handling
 api.get("/all_words", function(req, res) {
 	async.waterfall(
 		[
-			Request.checkRequestData(req, Config.GetAllUserWords),
-			// don't need check user member , check when post word records
-			// DB.checkUserMem,
+			Request.checkUid(req, Config.GetAllUserWords),
+			Request.checkRequestData,
 			DB.getAllUserWords
 		],
 		function(err, results) {
 			if (err) {
 				switch (results) {
+					case Config.ErrCodeCache:
+						MyLog.error(Config.ErrCodeCache);
+
+						res.json({ status: "err", code: Config.ErrCodeCache });
+						break;
 					case Config.ErrCodeDB:
 						MyLog.error(Config.ErrCodeDB);
+						// record database error info
+						MyLog.error(err);
 						MyLog.error(req.headers);
 						res.json({ status: "err", code: Config.ErrCodeDB });
 						break;
@@ -75,21 +69,36 @@ api.get("/all_words", function(req, res) {
 api.get("/last_word", function(req, res) {
 	async.waterfall(
 		[
-			Request.checkRequestData(req, Config.GetLastUserWord),
+			// request will handle if user exist
+			Request.checkUid(req, Config.GetLastUserWord),
+			Request.checkRequestData,
 			// don't need check user member , check when post word records
-			// DB.checkUserMem,
 			DB.getLastUserWord
 		],
 		function(err, results) {
 			if (err) {
 				switch (results) {
+					case Config.ErrCodeCache:
+						MyLog.error(Config.ErrCodeCache);
+
+						res.json({ status: "err", code: Config.ErrCodeCache });
+						break;
+					case Config.ErrCodeUid:
+						// invalid uid with the request
+						MyLog.error(Config.ErrCodeUid);
+						MyLog.error(req.headers);
+						res.json({ status: "err", code: Config.ErrCodeUid });
+						break;
 					case Config.ErrCodeDB:
 						MyLog.error(Config.ErrCodeDB);
+						// record database error info
+						MyLog.error(err);
 						MyLog.error(req.headers);
 
 						res.json({ status: "err", code: Config.ErrCodeDB });
 						break;
 					case Config.ErrCodeRequest:
+						// bad api request
 						MyLog.error(Config.ErrCodeRequest);
 						MyLog.error(req.headers);
 
@@ -106,58 +115,64 @@ api.get("/last_word", function(req, res) {
 	);
 });
 
-api.post("/new_mem", function(req, res) {
-	async.waterfall(
-		[Request.checkRequestData(req, Config.NewUserMeM), DB.createUserMem],
-		function(err, results) {
-			if (err) {
-				switch (results) {
-					case Config.ErrCodeDB:
-						MyLog.error(Config.ErrCodeDB);
-						MyLog.error(req.headers);
+// not for api , use locally maybe
+// api.post("/new_mem", function(req, res) {
+// 	async.waterfall(
+// 		[
+// 			Request.checkUid(req, Config.NewUserMeM),
+// 			Request.checkRequestData,
+// 			DB.createUserMem
+// 		],
+// 		function(err, results) {
+// 			if (err) {
+// 				switch (results) {
+// 					case Config.ErrCodeDB:
+// 						MyLog.error(Config.ErrCodeDB);
+// 						MyLog.error(req.headers);
 
-						res.json({ status: "err", code: Config.ErrCodeDB });
-						break;
-					case Config.ErrCodeRequest:
-						MyLog.error(Config.ErrCodeRequest);
-						MyLog.error(req.headers);
+// 						res.json({ status: "err", code: Config.ErrCodeDB });
+// 						break;
+// 					case Config.ErrCodeRequest:
+// 						MyLog.error(Config.ErrCodeRequest);
+// 						MyLog.error(req.headers);
 
-						res.json({
-							status: "err",
-							code: Config.ErrCodeRequest
-						});
-						break;
-					case Config.ErrCodeNewUserMemExisted:
-						MyLog.error(Config.ErrCodeNewUserMemExisted);
-						MyLog.error(req.headers);
-						res.json({
-							status: "err",
-							code: Config.ErrCodeNewUserMemExisted
-						});
-						break;
-				}
-			} else {
-				res.json({ status: "ok" });
-			}
-		}
-	);
-});
+// 						res.json({
+// 							status: "err",
+// 							code: Config.ErrCodeRequest
+// 						});
+// 						break;
+// 					case Config.ErrCodeNewUserMemExisted:
+// 						MyLog.error(Config.ErrCodeNewUserMemExisted);
+// 						MyLog.error(req.headers);
+// 						res.json({
+// 							status: "err",
+// 							code: Config.ErrCodeNewUserMemExisted
+// 						});
+// 						break;
+// 				}
+// 			} else {
+// 				res.json({ status: "ok" });
+// 			}
+// 		}
+// 	);
+// });
 
 api.post("/insert_new_word", function(req, res) {
 	// MyLog.info(req.body);
 
 	async.waterfall(
 		[
-			Request.checkRequestData(req, Config.InsertUserWord),
-			// don't need check user member , check when post word records
-			DB.checkUserMemForInsert,
-			DB.insertUserWord
+			Request.checkUid(req, Config.InsertNewUserWord),
+			Request.checkRequestData,
+			DB.insertNewUserWord
 		],
 		function(err, results) {
 			if (err) {
 				switch (results) {
 					case Config.ErrCodeDB:
 						MyLog.error(Config.ErrCodeDB);
+						// record database error info
+						MyLog.error(err);
 						MyLog.error(req.headers);
 						res.json({ status: "err", code: Config.ErrCodeDB });
 						break;
@@ -167,14 +182,6 @@ api.post("/insert_new_word", function(req, res) {
 						res.json({
 							status: "err",
 							code: Config.ErrCodeRequest
-						});
-						break;
-					case Config.ErrCodeUserMemNotExist:
-						MyLog.error(Config.ErrCodeUserMemNotExist);
-						MyLog.error(req.headers);
-						res.json({
-							status: "err",
-							code: Config.ErrCodeUserMemNotExist
 						});
 						break;
 				}

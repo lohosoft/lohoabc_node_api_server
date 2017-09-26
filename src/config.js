@@ -22,8 +22,16 @@ const dbUserWordsTableNameTs = "ts";
 
 const dbUserMemTableName = "user_mem";
 const dbUserMemTableNameUid = "uid";
+const dbUserMemTableNameServiceOpenId = "openid_service";
+const dbUserMemTableNameABCOpenId = "openid_abc";
+const dbUserMemTableNameInfo = "info";
+const dbUserMemTableNameGroup = "group";
+const dbUserMemTableNameVocabulary = "vocabulary";
 
-const UserMemExpireCacheExpire = 1200; // 1000 seconds
+const cookieUid = "uid";
+const cookieOpenId = "openid";
+
+const UserMemExpireCacheExpire = 1200; // 1200 seconds
 const projectRootPath = __dirname
 	.split("/")
 	.slice(0, -1)
@@ -52,20 +60,29 @@ const ErrRequest = "ErrRequest";
 const SaveTestHis = "sth";
 const GetLastUserWord = "rluw";
 const GetAllUserWords = "gauw";
-const InsertUserWord = "iuw";
+const InsertNewUserWord = "inuw";
 const NewUserMeM = "num";
 const ErrCodeRequest = 4040;
 const ErrCodeDB = 4050;
 const ErrCodeUserMemNotExist = 4060;
 const ErrCodeNewUserMemExisted = 4070;
 const ErrCodePostRequest = 4080;
-
+const ErrCodeUid = 4090;
+const ErrCodeWechat = 5000;
+const ErrCodeCache = 6000;
+// ======================================================
+// ======================================================
+// ======================================================
+exports.ErrCodeWechat = ErrCodeWechat;
+exports.ErrCodeUid = ErrCodeUid;
 exports.ErrCodeDB = ErrCodeDB;
 exports.ErrCodeRequest = ErrCodeRequest;
 exports.ErrCodeDB = ErrCodeDB;
 exports.ErrCodeUserMemNotExist = ErrCodeUserMemNotExist;
 exports.ErrCodeNewUserMemExisted = ErrCodeNewUserMemExisted;
 exports.ErrCodePostRequest = ErrCodePostRequest;
+exports.ErrCodeCache = ErrCodeCache;
+
 exports.dbhost = dbhost;
 exports.dbport = dbport;
 exports.dbusr = dbusr;
@@ -87,9 +104,18 @@ exports.dbUserWordsTableNameTs = dbUserWordsTableNameTs;
 exports.dbUserMemTableName = dbUserMemTableName;
 exports.dbUserMemTableNameUid = dbUserWordsTableNameUid;
 
-exports.InsertUserWord = InsertUserWord;
+exports.dbUserMemTableNameServiceOpenId = dbUserMemTableNameServiceOpenId;
+exports.dbUserMemTableNameABCOpenId = dbUserMemTableNameABCOpenId;
+exports.dbUserMemTableNameInfo = dbUserMemTableNameInfo;
+exports.dbUserMemTableNameGroup = dbUserMemTableNameGroup;
+exports.dbUserMemTableNameVocabulary = dbUserMemTableNameVocabulary;
+
+exports.InsertNewUserWord = InsertNewUserWord;
 exports.GetAllUserWords = GetAllUserWords;
 exports.NewUserMeM = NewUserMeM;
 exports.SaveTestHis = SaveTestHis;
 exports.GetLastUserWord = GetLastUserWord;
 exports.UserMemExpireCacheExpire = UserMemExpireCacheExpire;
+
+exports.cookieUid = cookieUid;
+exports.cookieOpenId = cookieOpenId;
