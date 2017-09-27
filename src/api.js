@@ -14,14 +14,21 @@ api.get("/echo", function(req, res) {
 
 // ===================  wechat related =======================
 // not use async , just pass req and res let my wechat handle
-api.get("/wechat/login", function(req, res) {
-	MyWechat.handleLogin(req, res);
+api.get("/wechat/login/learn", function(req, res) {
+	MyWechat.handleLogin(req, res, "learn");
 });
 
-api.get("/wechat/redirect", function(req, res) {
-	MyWechat.handleRedirect(req, res);
+api.get("/wechat/redirect/learn", function(req, res) {
+	MyWechat.handleRedirect(req, res, "learn");
 });
 
+api.get("/wechat/login/report", function(req, res) {
+	MyWechat.handleLogin(req, res, "report");
+});
+
+api.get("/wechat/redirect/report", function(req, res) {
+	MyWechat.handleRedirect(req, res, "report");
+});
 // api.get("/wechat/getuidcookie", function(req, res) {
 // 	MyWechat.handleGetCookie(req, res);
 // });

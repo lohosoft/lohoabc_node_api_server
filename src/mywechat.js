@@ -15,30 +15,48 @@ const clientService = new OAuth(
 // 	"784bd92d3bb602aa2dbffc9488425f1e"
 // );
 
-const loginRedirectUrl = "https://www.lohosoft.cn/api/abc/wechat/redirect";
+const loginRedirectUrl =
+	"https://www.lohosoft.cn/api/abc/wechat/redirect/learn";
+
+const reportLoginRedirectUrl =
+	"https://www.lohosoft.cn/api/abc/wechat/redirect/report";
 const loginState = "";
 const loginInfoScope = "snsapi_userinfo";
 const loginBaseScope = "snsapi_base";
 
-function handleLogin(req, res) {
-	handleServiceLogin(req, res);
+function handleLogin(req, res, type) {
+	handleServiceLogin(req, res, type);
 }
-function handleRedirect(req, res) {
-	handleServiceRedirect(req, res);
-}
-function handleServiceLogin(req, res) {
-	// MyLog.info("wechat login handle req : ", req);
-	let url = clientService.getAuthorizeURL(
-		loginRedirectUrl,
-		loginState,
-		loginBaseScope
-	);
-	MyLog.info("redirect url is : ", url);
-	res.redirect(url);
+function handleRedirect(req, res, type) {
+	handleServiceRedirect(req, res, type);
 }
 
-function handleServiceRedirect(req, res) {
-	let successRedictUrlSuffix = "https://www.lohosoft.cn/abc/index.html?uid=";
+function handleServiceLogin(req, res, type) {
+	// MyLog.info("wechat login handle req : ", req);
+	let url;
+	switch (type) {
+		case "learn":
+			url = clientService.getAuthorizeURL(
+				loginRedirectUrl,
+				loginState,
+				loginBaseScope
+			);
+			MyLog.info("redirect url is : ", url);
+			res.redirect(url);
+			break;
+		case "report":
+			url = clientService.getAuthorizeURL(
+				reportLoginRedirectUrl,
+				loginState,
+				loginBaseScope
+			);
+			MyLog.info("redirect url is : ", url);
+			res.redirect(url);
+			break;
+	}
+}
+
+function handleServiceRedirect(req, res, type) {
 	// MyLog.info("handle redirect req :", req);
 	let code = req.query.code;
 	MyLog.info("redirect code is : ", code);
@@ -72,6 +90,13 @@ function handleServiceRedirect(req, res) {
 					res.cookie(Config.cookieUid, uid, options); // options is optional
 
 					// encrypt uid for put onto as url for later use like get share from uid
+
+					// type is subdomain path learn or report
+					let successRedictUrlSuffix =
+						"https://www.lohosoft.cn/abc/" +
+						type +
+						"/index.html?uid=";
+
 					let redirectUrl =
 						successRedictUrlSuffix + Utils.encrypt(uid);
 					MyLog.info(
