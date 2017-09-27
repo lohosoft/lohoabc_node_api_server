@@ -31,29 +31,33 @@ const dbUserMemTableNameVocabulary = "vocabulary";
 const cookieUid = "uid";
 const cookieOpenId = "openid";
 
-const UserMemExpireCacheExpire = 1200; // 1200 seconds
+const UserMemExpireCacheExpire = 3600; // 3600 seconds
+
+// use for naming log file when running multi node app at different port
+let Port;
+
 const projectRootPath = __dirname
 	.split("/")
 	.slice(0, -1)
 	.join("/");
 
 // ============need create log folder first ==============
-// console.log("logger dirname is : ", __dirname);
-// const logFilePath =
-// 	__dirname
-// 		.split("/")
-// 		.slice(0, -1)
-// 		.join("/") + "/log/";
-// console.log("logger handled path is : ", logFilePath);
+console.log("__dirname is : ", __dirname);
+const logFilePath =
+	__dirname
+		.split("/")
+		.slice(0, -1)
+		.join("/") + "/log/";
+console.log("logger handled path is : ", logFilePath);
 
-// const infoLogFileName = "log_info.log";
-// const errorLogFileName = "log_error.log";
-// const exceptionsLogFileName = "exceptions.log";
+const infoLogFileName = Port + "_log_info.log";
+const errorLogFileName = Port + "_log_error.log";
+const exceptionsLogFileName = Port + "_exceptions.log";
 
-// exports.logFilePath = logFilePath;
-// exports.infoLogFileName = infoLogFileName;
-// exports.errorLogFileName = errorLogFileName;
-// exports.exceptionsLogFileName = exceptionsLogFileName;
+exports.logFilePath = logFilePath;
+exports.infoLogFileName = infoLogFileName;
+exports.errorLogFileName = errorLogFileName;
+exports.exceptionsLogFileName = exceptionsLogFileName;
 
 const ErrDB = "ErrDB";
 const ErrRequest = "ErrRequest";
@@ -70,9 +74,13 @@ const ErrCodePostRequest = 4080;
 const ErrCodeUid = 4090;
 const ErrCodeWechat = 5000;
 const ErrCodeCache = 6000;
+
+const CryptKey = "MeEXdZD4Upfv85vF4QAro5BmWgoy4Afj";
 // ======================================================
 // ======================================================
 // ======================================================
+exports.Port = Port;
+exports.CryptKey = CryptKey;
 exports.ErrCodeWechat = ErrCodeWechat;
 exports.ErrCodeUid = ErrCodeUid;
 exports.ErrCodeDB = ErrCodeDB;

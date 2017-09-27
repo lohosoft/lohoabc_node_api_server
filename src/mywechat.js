@@ -2,7 +2,7 @@ const OAuth = require("wechat-oauth");
 const MyLog = require("./mylog.js");
 const DB = require("./db.js");
 const Config = require("./config.js");
-
+const Utils = require("./utils.js");
 // for lohosoft service
 const clientService = new OAuth(
 	"wx3233dd62e5169ba0",
@@ -38,7 +38,7 @@ function handleServiceLogin(req, res) {
 }
 
 function handleServiceRedirect(req, res) {
-	let successRedictUrlRoot = "https://www.lohosoft.cn/abc/index.html";
+	let successRedictUrlSuffix = "https://www.lohosoft.cn/abc/index.html?uid=";
 	// MyLog.info("handle redirect req :", req);
 	let code = req.query.code;
 	MyLog.info("redirect code is : ", code);
@@ -56,7 +56,6 @@ function handleServiceRedirect(req, res) {
 					MyLog.info("userInfo is ", userInfo);
 					// res.redirect(successRedictUrlRoot + userInfo.unionid);
 					// res.send(userInfo);
-					let redirectUrl = successRedictUrlRoot;
 
 					// set cookies for ongoing use
 					let options = {
@@ -72,6 +71,13 @@ function handleServiceRedirect(req, res) {
 					res.cookie(Config.cookieOpenId, openid, options);
 					res.cookie(Config.cookieUid, uid, options); // options is optional
 
+					// encrypt uid for put onto as url for later use like get share from uid
+					let redirectUrl =
+						successRedictUrlSuffix + Utils.encrypt(uid);
+					MyLog.info(
+						"success wechet login , redict to : ",
+						redirectUrl
+					);
 					res.redirect(redirectUrl);
 					// every time user login , try to create user
 					// ==============maybe record user login history ===========TODO

@@ -1,6 +1,7 @@
 const winston = require("winston");
 // require("winston-daily-rotate-file");
 require("winston-logrotate");
+const Config = require("./config.js");
 
 // const transport = new winston.transports.DailyRotateFile({
 // 	filename: "/home/pampa/loho_api_server/log/log",
@@ -13,7 +14,7 @@ require("winston-logrotate");
 // });
 
 var rotateTransport = new winston.transports.Rotate({
-	file: "/home/pampa/loho_api_server/log/my.log", // this path needs to be absolute
+	file: Config.LogFilePath + Config.errorLogFileName,
 	colorize: true,
 	timestamp: true,
 	json: true,

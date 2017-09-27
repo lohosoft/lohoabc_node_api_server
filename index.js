@@ -25,6 +25,7 @@ app.use(cors());
 app.use("/api/abc", Api);
 
 const port = args[2];
+Config.Port = port;
 
 app.listen(port, function() {
 	console.log("Example app listening on port : ", port);
