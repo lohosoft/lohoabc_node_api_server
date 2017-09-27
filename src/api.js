@@ -83,12 +83,13 @@ api.get("/last_word", function(req, res) {
 
 						res.json({ status: "err", code: Config.ErrCodeCache });
 						break;
-					case Config.ErrCodeUid:
-						// invalid uid with the request
-						MyLog.error(Config.ErrCodeUid);
-						MyLog.error(req.headers);
-						res.json({ status: "err", code: Config.ErrCodeUid });
-						break;
+					// not using yet
+					// case Config.ErrCodeUid:
+					// 	// invalid uid with the request
+					// 	MyLog.error(Config.ErrCodeUid);
+					// 	MyLog.error(req.headers);
+					// 	res.json({ status: "err", code: Config.ErrCodeUid });
+					// 	break;
 					case Config.ErrCodeDB:
 						MyLog.error(Config.ErrCodeDB);
 						// record database error info

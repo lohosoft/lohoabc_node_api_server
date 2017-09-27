@@ -1,8 +1,8 @@
-const dbhost = "59ad34e4531af.sh.cdb.myqcloud.com";
-const dbport = 5810;
+// const dbhost = "59ad34e4531af.sh.cdb.myqcloud.com";
+// const dbport = 5810;
 // prod db setting
-// const dbhost = "172.17.16.9";
-// const dbport = 3388;
+const dbhost = "172.17.16.9";
+const dbport = 3388;
 const dbusr = "nxg";
 const dbpassword = "nxgsql888";
 const dbdatabase = "LOHOABC_ALPHA";
@@ -42,30 +42,30 @@ const projectRootPath = __dirname
 	.join("/");
 
 // ============need create log folder first ==============
-console.log("__dirname is : ", __dirname);
-const logFilePath =
-	__dirname
-		.split("/")
-		.slice(0, -1)
-		.join("/") + "/log/";
-console.log("logger handled path is : ", logFilePath);
+// console.log("__dirname is : ", __dirname);
+// const logFilePath =
+// 	__dirname
+// 		.split("/")
+// 		.slice(0, -1)
+// 		.join("/") + "/log/";
+// console.log("logger handled path is : ", logFilePath);
 
-const infoLogFileName = Port + "_log_info.log";
-const errorLogFileName = Port + "_log_error.log";
-const exceptionsLogFileName = Port + "_exceptions.log";
+// let infoLogFileName;
+// let errorLogFileName;
+// let exceptionsLogFileName;
 
-exports.logFilePath = logFilePath;
-exports.infoLogFileName = infoLogFileName;
-exports.errorLogFileName = errorLogFileName;
-exports.exceptionsLogFileName = exceptionsLogFileName;
+// exports.logFilePath = logFilePath;
+// exports.infoLogFileName = infoLogFileName;
+// exports.errorLogFileName = errorLogFileName;
+// exports.exceptionsLogFileName = exceptionsLogFileName;
 
-const ErrDB = "ErrDB";
-const ErrRequest = "ErrRequest";
 const SaveTestHis = "sth";
 const GetLastUserWord = "rluw";
 const GetAllUserWords = "gauw";
 const InsertNewUserWord = "inuw";
 const NewUserMeM = "num";
+
+const ErrCodeCache = 4030;
 const ErrCodeRequest = 4040;
 const ErrCodeDB = 4050;
 const ErrCodeUserMemNotExist = 4060;
@@ -73,7 +73,6 @@ const ErrCodeNewUserMemExisted = 4070;
 const ErrCodePostRequest = 4080;
 const ErrCodeUid = 4090;
 const ErrCodeWechat = 5000;
-const ErrCodeCache = 6000;
 
 const CryptKey = "MeEXdZD4Upfv85vF4QAro5BmWgoy4Afj";
 // ======================================================

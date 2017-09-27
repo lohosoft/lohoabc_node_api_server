@@ -83,6 +83,17 @@ function handleServiceRedirect(req, res) {
 					// ==============maybe record user login history ===========TODO
 					//DB.recordLogin(uid);
 					DB.tryInsertUserMem(uid, openid);
+				} else if (err.code === 48001) {
+					console.log(err.code);
+					// user not authorized yet ,
+					// redicect to sns_userinfo scope
+					let redirectUrl = clientService.getAuthorizeURL(
+						loginRedirectUrl,
+						loginState,
+						loginInfoScope
+					);
+					MyLog.info("redirect url is : ", redirectUrl);
+					res.redirect(redirectUrl);
 				} else {
 					MyLog.error(Config.ErrCodeWechat);
 					MyLog.error(err);
